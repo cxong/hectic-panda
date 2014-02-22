@@ -36,7 +36,7 @@ var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 music.play();
 
 var splash = new Splash( "images/logo.png", 400, 231 );
-var loseSplash = new Splash( "images/lose.png", 280, 128 );
+var loseSplash = new Splash( "images/lose.png", 413, 350 );
 
 // Render loop
 var counter = 0;
