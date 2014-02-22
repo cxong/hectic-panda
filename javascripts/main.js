@@ -35,8 +35,9 @@ var keysPressed = {};
 document.addEventListener("keydown", onDocumentKeyDown, false);
 
 // 
-var Sound = function ( source ) {
+var Sound = function ( source, volume ) {
   var audio = document.createElement( 'audio' );
+  audio.volume = volume;
   var aSource = document.createElement( 'source' );
   aSource.src = source;
   audio.appendChild( aSource );
@@ -46,7 +47,9 @@ var Sound = function ( source ) {
 }
 //var flapSound = new Sound( 'sounds/phaseJump2.mp3' );
 //var passSound = new Sound( 'sounds/powerUp2.mp3' );
-var dieSound = new Sound( 'sounds/explosion.ogg' );
+var dieSound = new Sound( 'sounds/explosion.ogg', 1.0 );
+var music = new Sound( 'sounds/Orbital Colossus_0.mp3', 0.3 );
+music.play();
 
 // Render loop
 var counter = 0;
