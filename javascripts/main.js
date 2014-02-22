@@ -40,7 +40,7 @@ var splash = new Splash();
 // Render loop
 var counter = 0;
 
-var universes = [new Universe(), new Universe(), new Universe(), new Universe()];
+var universes = [new Universe(),new Universe(),new Universe(),new Universe()];
 
 function render() {
   counter ++

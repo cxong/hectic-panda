@@ -24,7 +24,8 @@ var PowerUp = function(scene, xPos, yPos) {
 	};
 	
 	this.removePowerUp = function() {
-		jQuery.event.trigger("powerUpPickUp")
+		console.log("in power up");
+		jQuery.event.trigger("powerUpPickUp", scene)
 		scene.remove(this.mesh)
 	}
 }

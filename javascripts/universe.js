@@ -13,7 +13,8 @@ Universe = function() {
         cameraScale * aspectRatio / - 2, cameraScale * aspectRatio / 2,
         cameraScale / 2, cameraScale / - 2, near, far );
     this.camera.position.z = 5;
-    
+	
+	var self = this
     
     this.scene = new THREE.Scene();
     
@@ -70,8 +71,10 @@ Universe = function() {
         return this.camera;
     }
 
-    $(this).bind('powerUpPickUp', function (){
-        this.powerUp = new PowerUp(this.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
-        this.player.speedUp();
+    $(document).bind('powerUpPickUp', function (event, scene){
+		if (scene == self.scene) {
+			self.powerUp = new PowerUp(self.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
+		}
+        self.player.speedUp();
     })
 }
