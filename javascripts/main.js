@@ -39,7 +39,7 @@ var Sound = function ( source ) {
 }
 //var flapSound = new Sound( 'sounds/phaseJump2.mp3' );
 //var passSound = new Sound( 'sounds/powerUp2.mp3' );
-//var dieSound = new Sound( 'sounds/spaceTrash4.mp3' );
+var dieSound = new Sound( 'sounds/explosion.ogg' );
 
 // Render loop
 function render() {
@@ -66,6 +66,8 @@ function render() {
   if ( map.isAtEdge( player.mesh.position, player.mesh.scale ) ) {
     console.log("YOU LOSE");
     player.mesh.material.color = 0x000000;
+    player.speed *= -1;
+    dieSound.play();
   }
   
   renderer.render( scene, camera );

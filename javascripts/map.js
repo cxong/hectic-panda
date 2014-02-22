@@ -2,7 +2,7 @@ var Map = function( scene ) {
   var material = new THREE.MeshBasicMaterial({
     color : 0x003300
   });
-  var geometry = new THREE.PlaneGeometry( 1, 11 );
+  var geometry = new THREE.PlaneGeometry( 1, 1 );
   this.mesh = new THREE.Mesh( geometry, material );
   this.mesh.z = 1;
   this.mesh.scale.x = 16;
