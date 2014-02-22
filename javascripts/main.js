@@ -2,6 +2,9 @@ var scene = new THREE.Scene();
 
 
 // Set up camera
+var SCREEN_WIDTH = 8
+var SCREEN_HEIGHT = 8
+
 var aspectRatio = window.innerWidth / window.innerHeight;
 var near = 0.1;
 var far = 1000;
@@ -19,11 +22,13 @@ document.body.appendChild(renderer.domElement);
 // Player
 var player = new Player( scene );
 
+var powerUp = new PowerUp(scene, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 // Keyboard
 var keysPressed = {};
 document.addEventListener("keydown", onDocumentKeyDown, false);
 
-// Sound
+// 
 var Sound = function ( source ) {
   var audio = document.createElement( 'audio' );
   var aSource = document.createElement( 'source' );
@@ -38,6 +43,8 @@ var Sound = function ( source ) {
 //var dieSound = new Sound( 'sounds/spaceTrash4.mp3' );
 
 // Render loop
+var counter = 0;
+
 function render() {
   requestAnimationFrame(render);
   
@@ -58,6 +65,12 @@ function render() {
   keysPressed = {};
   player.update();
   
+  // hack to simulate item being eaten
+  counter++
+  if (counter % 180 == 0) {
+	powerUp.removePowerUp()
+  }
+  
   renderer.render( scene, camera );
 }
 
@@ -75,3 +88,12 @@ function onDocumentKeyDown( event ) {
 }
 
 render();
+$(document).bind('powerUpPickUp', function (){
+	powerUp = new PowerUp(scene, randomNumber(SCREEN_WIDTH), randomNumber(SCREEN_HEIGHT));
+})
+
+function randomNumber(max) {
+	var number = (Math.random() * max) - max/2
+	console.log(number)
+	return Math.floor(number) 
+}
