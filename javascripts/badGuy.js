@@ -1,5 +1,7 @@
 var BadGuy = function(scene, xPos, yPos) {
-	var matMap = THREE.ImageUtils.loadTexture( "images/ghost.PNG" );
+	var matMap = THREE.ImageUtils.loadTexture( "images/spider_4.png" );
+  var matAnimator = new TextureAnimator(
+    matMap, 6, 4, 75 ); // texture, #horiz, #vert, duration.
 	var material = new THREE.MeshBasicMaterial({
 		map : matMap,
 		transparent : true
@@ -20,31 +22,32 @@ var BadGuy = function(scene, xPos, yPos) {
 	this.dir = new THREE.Vector2( 1, 0 );
 	var direction = null;
 	
-	this.update = function() {
+	this.update = function( delta ) {
 		this.mesh.position.x += this.dir.x * this.speed;
 		this.mesh.position.y += this.dir.y * this.speed;
+    matAnimator.update( 1000 * delta );
 	};
 	
 	this.setDir = function( keysPressed ) {
 		if ( keysPressed.left ) {
 		  this.dir.x = -1;
 		  this.dir.y = 0;
-		  this.mesh.rotation.z = 0.5 * Math.PI;
+      matAnimator.setPose( 2 );
 		  direction = "left"
 		} else if ( keysPressed.right ) {
 		  this.dir.x = 1;
 		  this.dir.y = 0;
-		  this.mesh.rotation.z = 1.5 * Math.PI;
+      matAnimator.setPose( 1 );
 		  direction = "right"
 		} else if ( keysPressed.up ) {
 		  this.dir.x = 0;
 		  this.dir.y = 1;
-		  this.mesh.rotation.z = 0;
+      matAnimator.setPose( 0 );
 		  direction = "up"
 		} else if ( keysPressed.down ) {
 		  this.dir.x = 0;
 		  this.dir.y = -1;
-		  this.mesh.rotation.z = Math.PI;
+      matAnimator.setPose( 3 );
 		  direction = "down"
 		}
 	};

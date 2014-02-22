@@ -1,6 +1,6 @@
 var Map = function( scene ) {
-  var mapWidth = 16;
-  var mapHeight = 16;
+  var mapWidth = 16 * 1.4;
+  var mapHeight = 10 * 1.4;
 	var matMap = THREE.ImageUtils.loadTexture( "images/grass14.png" );
   matMap.wrapS = THREE.RepeatWrapping;
   matMap.wrapT = THREE.RepeatWrapping;
