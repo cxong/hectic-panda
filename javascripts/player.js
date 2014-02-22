@@ -19,22 +19,18 @@ var Player = function( scene ) {
       this.dir.x = -1;
       this.dir.y = 0;
       matAnimator.setPose( 0 );
-      //this.mesh.rotation.z = 0.5 * Math.PI;
     } else if ( keysPressed.right ) {
       this.dir.x = 1;
       this.dir.y = 0;
       matAnimator.setPose( 1 );
-      //this.mesh.rotation.z = 1.5 * Math.PI;
     } else if ( keysPressed.up ) {
       this.dir.x = 0;
       this.dir.y = 1;
       matAnimator.setPose( 2 );
-      //this.mesh.rotation.z = 0;
     } else if ( keysPressed.down ) {
       this.dir.x = 0;
       this.dir.y = -1;
       matAnimator.setPose( 3 );
-      //this.mesh.rotation.z = Math.PI;
     }
   };
   this.setDir( { right : true } );

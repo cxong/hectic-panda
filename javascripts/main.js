@@ -74,7 +74,7 @@ function render() {
   keysPressed = {};
   player.update( delta );
   
-  badGuy.update();
+  badGuy.update( delta );
   
   if ( map.detectCollision( badGuy.mesh.position, badGuy.mesh.scale )) {
 	badGuy.opposite()
