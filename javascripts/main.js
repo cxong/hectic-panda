@@ -42,11 +42,11 @@ var Sound = function ( source, volume ) {
   aSource.src = source;
   audio.appendChild( aSource );
   this.play = function () {
+    audio.load();
     audio.play();
   }
 }
-//var flapSound = new Sound( 'sounds/phaseJump2.mp3' );
-//var passSound = new Sound( 'sounds/powerUp2.mp3' );
+var pickupSound = new Sound( 'sounds/ding.ogg', 1.0 );
 var dieSound = new Sound( 'sounds/explosion.ogg', 1.0 );
 var music = new Sound( 'sounds/Orbital Colossus_0.mp3', 0.3 );
 music.play();
@@ -97,6 +97,8 @@ function onDocumentKeyDown( event ) {
 render();
 $(document).bind('powerUpPickUp', function (){
 	powerUp = new PowerUp(scene, randomNumber(SCREEN_WIDTH), randomNumber(SCREEN_HEIGHT));
+  player.speedUp();
+  pickupSound.play();
 })
 
 function randomNumber(max) {

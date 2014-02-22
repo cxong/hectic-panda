@@ -9,7 +9,7 @@ var Player = function( scene ) {
   this.mesh = new THREE.Mesh( geometry, material );
   scene.add( this.mesh );
   
-  this.speed = 0.1;
+  this.speed = 0.11;
   this.dir = new THREE.Vector2( 1, 0 );
 
   this.setDir = function( keysPressed ) {
@@ -32,6 +32,10 @@ var Player = function( scene ) {
     }
   };
   this.setDir( { right : true } );
+  
+  this.speedUp = function() {
+    this.speed *= 1.01;
+  }
   
   this.update = function() {
     this.mesh.position.x += this.dir.x * this.speed;
