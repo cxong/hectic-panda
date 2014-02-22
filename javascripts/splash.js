@@ -1,4 +1,4 @@
-var Splash = function() {
+var Splash = function( path, width, height ) {
   this.scene = new THREE.Scene();
   var aspectRatio = window.innerWidth / window.innerHeight;
   var near = 0.1;
@@ -8,12 +8,12 @@ var Splash = function() {
     cameraScale * aspectRatio / - 2, cameraScale * aspectRatio / 2,
     cameraScale / 2, cameraScale / - 2, near, far );
   this.camera.position.z = 5;
-  var matMap = THREE.ImageUtils.loadTexture( "images/logo.png" );
+  var matMap = THREE.ImageUtils.loadTexture( path );
   var material = new THREE.MeshBasicMaterial({
     map : matMap,
     transparent : true
   });
-  var geometry = new THREE.PlaneGeometry( 400 * 0.03, 231 * 0.03 );
+  var geometry = new THREE.PlaneGeometry( width * 0.03, height * 0.03 );
   this.mesh = new THREE.Mesh( geometry, material );
   this.scene.add( this.mesh );
   

@@ -1,9 +1,9 @@
+var SCREEN_WIDTH = 8
+var SCREEN_HEIGHT = 8
 
 Universe = function() {
     
     // Set up camera
-    var SCREEN_WIDTH = 8
-    var SCREEN_HEIGHT = 8
     
     var aspectRatio = window.innerWidth / window.innerHeight;
     var near = 0.1;
@@ -17,18 +17,15 @@ Universe = function() {
 	var self = this
     
     this.scene = new THREE.Scene();
-    
-    
-    function randomNumberBothWays (max) {
-        return Math.floor((Math.random() * max) - max/2) 
-    }
-    
+ 
     // Player
     this.player = new Player( this.scene );
-    
-    this.powerUp = new PowerUp(this.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
-    
-    this.badGuy = new BadGuy(this.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
+
+    var position = GenerateRandomPositionAwayFromPlayer( this.player.mesh.position );
+    this.powerUp = new PowerUp(this.scene, position.x, position.y );
+
+    position = GenerateRandomPositionAwayFromPlayer( this.player.mesh.position );
+    this.badGuy = new BadGuy(this.scene, position.x, position.y );
     
     this.map = new Map( this.scene );
 
@@ -73,8 +70,23 @@ Universe = function() {
 
     $(document).bind('powerUpPickUp', function (event, scene){
 		if (scene == self.scene) {
-			self.powerUp = new PowerUp(self.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
+        var position = GenerateRandomPositionAwayFromPlayer( self.player.mesh.position );
+			self.powerUp = new PowerUp(self.scene, position.x, position.y );
 		}
         self.player.speedUp();
-    })
+    });
+}
+
+function randomNumberBothWays (max) {
+    return Math.floor((Math.random() * max) - max/2) 
+}
+
+function GenerateRandomPositionAwayFromPlayer( playerPosition ) {
+    var position = { x : 0, y : 0 };
+    var minDistance = 2.0;
+    do {
+        position.x = randomNumberBothWays(SCREEN_WIDTH);
+        position.y = randomNumberBothWays(SCREEN_HEIGHT);
+    } while ( Math.abs( position.x - playerPosition.x ) < minDistance || Math.abs( position.y - playerPosition.y ) < minDistance );
+    return position;
 }
