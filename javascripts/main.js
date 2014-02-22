@@ -8,9 +8,10 @@ var SCREEN_HEIGHT = 8
 var aspectRatio = window.innerWidth / window.innerHeight;
 var near = 0.1;
 var far = 1000;
+var cameraScale = 15;
 var camera = new THREE.OrthographicCamera(
-  10 * aspectRatio / - 2, 10 * aspectRatio / 2,
-  10 / 2, 10 / - 2, near, far );
+  cameraScale * aspectRatio / - 2, cameraScale * aspectRatio / 2,
+  cameraScale / 2, cameraScale / - 2, near, far );
 camera.position.z = 5;
 
 var renderer = new THREE.WebGLRenderer();
@@ -19,10 +20,16 @@ document.body.appendChild(renderer.domElement);
 
 // Set up scene and objects
 
+
+
 // Player
 var player = new Player( scene );
 
-var powerUp = new PowerUp(scene, SCREEN_WIDTH, SCREEN_HEIGHT);
+var map = new Map( scene );
+
+var powerUp = new PowerUp(scene, randomNumber(SCREEN_WIDTH), randomNumber(SCREEN_HEIGHT));
+
+
 
 // Keyboard
 var keysPressed = {};
@@ -40,7 +47,7 @@ var Sound = function ( source ) {
 }
 //var flapSound = new Sound( 'sounds/phaseJump2.mp3' );
 //var passSound = new Sound( 'sounds/powerUp2.mp3' );
-//var dieSound = new Sound( 'sounds/spaceTrash4.mp3' );
+var dieSound = new Sound( 'sounds/explosion.ogg' );
 
 // Render loop
 var counter = 0;
@@ -69,6 +76,14 @@ function render() {
   counter++
   if (counter % 180 == 0) {
 	powerUp.removePowerUp()
+  }
+  
+  // Collide with map edge
+  if ( map.isAtEdge( player.mesh.position, player.mesh.scale ) ) {
+    console.log("YOU LOSE");
+    player.mesh.material.color = 0x000000;
+    player.speed *= -1;
+    dieSound.play();
   }
   
   renderer.render( scene, camera );

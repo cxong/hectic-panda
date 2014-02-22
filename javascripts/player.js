@@ -8,6 +8,7 @@ var Player = function( scene ) {
   
   this.speed = 0.1;
   this.dir = new THREE.Vector2( 1, 0 );
+  this.mesh.z = 0;
   
   this.update = function() {
     this.mesh.position.x += this.dir.x * this.speed;

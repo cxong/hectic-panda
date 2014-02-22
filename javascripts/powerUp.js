@@ -9,6 +9,7 @@ var PowerUp = function(scene, xPos, yPos) {
 	
 	this.mesh.position.x = xPos
 	this.mesh.position.y = yPos
+	this.mesh.z = 0;
 	
 	this.removePowerUp = function() {
 		jQuery.event.trigger("powerUpPickUp")
