@@ -61,6 +61,7 @@ var BadGuy = function(scene, xPos, yPos) {
 		} else if (direction == "right") {
 			this.setDir( { left : true } );
 		} 
+		counter = randomNumber(150)
 	}
 	
 	this.detectCollision = function( pos, scale) {
