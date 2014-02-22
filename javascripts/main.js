@@ -58,7 +58,7 @@ var Sound = function ( source, volume ) {
 var pickupSound = new Sound( 'sounds/ding.ogg', 1.0 );
 var dieSound = new Sound( 'sounds/explosion.ogg', 1.0 );
 var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
-var deathMusic = new Sound( 'sounds/Aikys-Dying beast.mp3', 0.3 );
+var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 music.play();
 
 // Render loop
