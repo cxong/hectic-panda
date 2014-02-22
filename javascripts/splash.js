@@ -13,7 +13,7 @@ var Splash = function() {
     map : matMap,
     transparent : true
   });
-  var geometry = new THREE.PlaneGeometry( 400 * 0.05, 128 * 0.05 );
+  var geometry = new THREE.PlaneGeometry( 400 * 0.03, 231 * 0.03 );
   this.mesh = new THREE.Mesh( geometry, material );
   this.scene.add( this.mesh );
   
