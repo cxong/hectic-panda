@@ -46,11 +46,11 @@ Universe = function() {
         
         // Collide with map edge
         if ( this.map.detectCollision( this.player.mesh.position, this.player.mesh.scale )) {
-              this.playaBeDeadYo()
+            playaBeDeadYo( this.player );
         }
         
         if (this.badGuy.detectCollision( this.player.mesh.position, this.player.mesh.scale)) {
-              this.playaBeDeadYo()
+           playaBeDeadYo( this.player );
         }
         
         if (this.powerUp.detectCollision( this.player.mesh.position, this.player.mesh.scale)) {
@@ -74,9 +74,4 @@ Universe = function() {
         this.powerUp = new PowerUp(this.scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
         this.player.speedUp();
     })
-
-    this.playaBeDeadYo = function () {
-        this.player.mesh.material.color = 0x000000;
-        isPlaying = false;
-    }
 }

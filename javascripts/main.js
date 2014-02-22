@@ -8,8 +8,7 @@ document.body.appendChild(renderer.domElement);
 var splitScreenRenderer = new SplitScreenRenderer();
 
 // Set up scene and objects
-
-var isPlaying = true;
+var gameState = "start";  // start, playing, end
 
 // Keyboard
 var keysPressed = {};
@@ -36,6 +35,8 @@ var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
 var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 music.play();
 
+var splash = new Splash();
+
 // Render loop
 var counter = 0;
 
@@ -46,7 +47,14 @@ function render() {
   requestAnimationFrame(render);
   var delta = clock.getDelta();
 
-  if ( !isPlaying ) {
+  if ( gameState == "start" ) {
+    splash.render( renderer );
+    // Check for key presses
+    if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
+      gameState = "playing";
+    }
+  }
+  if ( gameState != "playing" ) {
     return;
   }
   
@@ -67,12 +75,12 @@ function render() {
   keysPressed = {};
 }
 
-function playaBeDeadYo() {
+function playaBeDeadYo( player ) {
 	player.mesh.material.color = 0x000000;
     //dieSound.play();
 	music.stop();
 	deathMusic.play();
-    isPlaying = false;
+  gameState = "end";
 }
 
 function onDocumentKeyDown( event ) {
