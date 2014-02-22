@@ -46,19 +46,7 @@ function render() {
   requestAnimationFrame(render);
   
   // handle input
-  if ( keysPressed.left ) {
-    player.dir.x = -1;
-    player.dir.y = 0;
-  } else if ( keysPressed.right ) {
-    player.dir.x = 1;
-    player.dir.y = 0;
-  } else if ( keysPressed.up ) {
-    player.dir.x = 0;
-    player.dir.y = 1;
-  } else if ( keysPressed.down ) {
-    player.dir.x = 0;
-    player.dir.y = -1;
-  }
+  player.setDir( keysPressed );
   keysPressed = {};
   player.update();
   
