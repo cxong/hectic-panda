@@ -20,7 +20,7 @@ document.body.appendChild(renderer.domElement);
 
 // Set up scene and objects
 
-
+var isPlaying = true;
 
 // Player
 var player = new Player( scene );
@@ -53,6 +53,10 @@ var counter = 0;
 
 function render() {
   requestAnimationFrame(render);
+
+  if ( !isPlaying ) {
+    return;
+  }
   
   // handle input
   player.setDir( keysPressed );
@@ -69,8 +73,8 @@ function render() {
   if ( map.isAtEdge( player.mesh.position, player.mesh.scale ) ) {
     console.log("YOU LOSE");
     player.mesh.material.color = 0x000000;
-    player.speed *= -1;
     dieSound.play();
+    isPlaying = false;
   }
   
   renderer.render( scene, camera );
