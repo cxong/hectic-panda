@@ -129,5 +129,5 @@ function randomNumberBothWays(max) {
 }
 
 function randomNumber(max) {
-	return Math.floor((Math.random() * max)) 
+	return Math.ceil((Math.random() * max)) 
 }

@@ -70,26 +70,21 @@ var BadGuy = function(scene, xPos, yPos) {
 			pos.y + scale.y / 2 > this.mesh.position.y - this.mesh.scale.y /2		
 	};
 	
-	this.removePowerUp = function() {
-		jQuery.event.trigger("powerUpPickUp")
-		scene.remove(this.mesh)
-	}
-	
 	this.changeDirection = function() {
 		this.counter = randomNumber(150)
 		var newDirection = randomNumber(4)
-		if (newDirection == 0) {
+		if (newDirection == 1) {
 			this.setDir( { up : true } );
-		} else if (newDirection == 1) {
-			this.setDir( { down : true } );
 		} else if (newDirection == 2) {
-			this.setDir( { left : true } );
+			this.setDir( { down : true } );
 		} else if (newDirection == 3) {
+			this.setDir( { left : true } );
+		} else if (newDirection == 4) {
 			this.setDir( { right : true } );
 		}
 	}
 }
 
 function randomNumber(max) {
-	return Math.floor((Math.random() * max)) 
+	return Math.ceil((Math.random() * max)) 
 }
