@@ -16,7 +16,10 @@ camera.position.z = 5;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.autoClear = false;
 document.body.appendChild(renderer.domElement);
+
+var splitScreenRenderer = new SplitScreenRenderer();
 
 // Set up scene and objects
 
@@ -94,7 +97,13 @@ function render() {
 	badGuy.changeDirection()
   }
   
-  renderer.render( scene, camera );
+  
+  var scenes = [scene, scene, scene, scene];
+  var cameras = [camera, camera, camera, camera];
+  
+  renderer.clear(true);
+  
+  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
 }
 
 function playaBeDeadYo() {
