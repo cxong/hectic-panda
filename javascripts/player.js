@@ -1,4 +1,4 @@
-var Player = function( scene ) {
+var Player = function( scene, copyPlayer ) {
   var matMap = THREE.ImageUtils.loadTexture( "images/Panda_0.png" );
   var matAnimator = new TextureAnimator(
     matMap, 3, 4, 75 ); // texture, #horiz, #vert, duration.
@@ -9,10 +9,15 @@ var Player = function( scene ) {
   });
   var geometry = new THREE.PlaneGeometry( 1, 1 );
   this.mesh = new THREE.Mesh( geometry, material );
-  scene.add( this.mesh );
+  if (scene != null) {
+	scene.add( this.mesh );
+  }
   
-  this.speed = 0.11;
-  this.dir = new THREE.Vector2( 1, 0 );
+  this.speed = copyPlayer.speed;
+  this.mesh.position.x = copyPlayer.mesh.position.x
+  this.mesh.position.y = copyPlayer.mesh.position.y
+  
+  this.dir = copyPlayer.dir//new THREE.Vector2( 1, 0 );
 
   this.setDir = function( keysPressed ) {
     if ( keysPressed.left ) {
@@ -33,7 +38,7 @@ var Player = function( scene ) {
       matAnimator.setPose( 3 );
     }
   };
-  this.setDir( { right : true } );
+  //this.setDir( { right : true } );
   
   this.speedUp = function() {
     this.speed *= 1.01;

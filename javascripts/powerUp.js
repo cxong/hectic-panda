@@ -1,5 +1,4 @@
 var PowerUp = function(scene, xPos, yPos) {
-	//console.log("power up position x=" + xPos + ";y=" + yPos)
 	var matMap = THREE.ImageUtils.loadTexture( "images/fruit.png" );
 	var material = new THREE.MeshBasicMaterial({
 		//color : 0x0000ff,
@@ -23,9 +22,8 @@ var PowerUp = function(scene, xPos, yPos) {
 			pos.y + scale.y / 2 > this.mesh.position.y - this.mesh.scale.y /2		
 	};
 	
-	this.removePowerUp = function() {
-		console.log("in power up");
-		jQuery.event.trigger("powerUpPickUp", scene)
+	this.removePowerUp = function(player) {
+		jQuery.event.trigger("powerUpPickUp", [scene, player])
 		scene.remove(this.mesh)
 	}
 }

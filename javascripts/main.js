@@ -38,10 +38,19 @@ music.play();
 var splash = new Splash( "images/logo.png", 400, 231 );
 var loseSplash = new Splash( "images/lose.png", 413, 350 );
 
+var almightPlayer = {"mesh": {
+						"position": {
+							"x" : 0,
+							"y" : 0
+						}
+					 },
+					 "speed": 0.11,
+					 "dir": new THREE.Vector2( 1, 0 )}
+
 // Render loop
 var counter = 0;
 
-var universes = [new Universe(),new Universe(),new Universe(),new Universe()];
+var universes = [new Universe(almightPlayer)];
 
 function render() {
   counter ++
@@ -53,31 +62,8 @@ function render() {
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
-      score = new Score();
     }
-    return;
-  }
-  
-  if ( gameState == "playing" ) {
-    for(var i = 0; i < universes.length; ++i) {
-      var universe = universes[i];
-      universe.update(counter, delta, keysPressed);
-    }
-  }
-  
-  var scenes = [];
-  var cameras = [];
-  for(var i = 0; i < universes.length; ++i) {
-    var universe = universes[i];
-    scenes[i] = universe.getScene();
-    cameras[i] = universe.getCamera();
-  }
-  
-  renderer.clear(true);
-  
-  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
-
-  if ( gameState == "end" ) {
+  } else if ( gameState == "end" ) {
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     loseSplash.render( renderer );
     // Check for key presses
@@ -85,6 +71,23 @@ function render() {
       location.reload();
     }
   }
+  if ( gameState != "playing" ) {
+    return;
+  }
+  
+  var scenes = [];
+  var cameras = [];
+  
+  for(var i = 0; i < universes.length; ++i) {
+    var universe = universes[i];
+    universe.update(counter, delta, keysPressed);
+    scenes[i] = universe.getScene();
+    cameras[i] = universe.getCamera();
+  }
+  
+  renderer.clear(true);
+  
+  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
   
   keysPressed = {};
 }
@@ -112,6 +115,7 @@ function onDocumentKeyDown( event ) {
 
 render();
 
-    $(document).bind('powerUpPickUp', function (){
+    $(document).bind('powerUpPickUp', function (event, scene, player){
+		universes[universes.length] = new Universe(player)
       pickupSound.play();
     });

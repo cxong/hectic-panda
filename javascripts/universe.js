@@ -1,7 +1,7 @@
 var SCREEN_WIDTH = 8
 var SCREEN_HEIGHT = 8
 
-Universe = function() {
+Universe = function(player) {
     
     // Set up camera
     
@@ -19,7 +19,7 @@ Universe = function() {
     this.scene = new THREE.Scene();
  
     // Player
-    this.player = new Player( this.scene );
+    this.player = new Player( this.scene, player);
 
     var position = GenerateRandomPositionAwayFromPlayer( this.player.mesh.position );
     this.powerUp = new PowerUp(this.scene, position.x, position.y );
@@ -52,7 +52,7 @@ Universe = function() {
         }
         
         if (this.powerUp.detectCollision( this.player.mesh.position, this.player.mesh.scale)) {
-              this.powerUp.removePowerUp()
+              this.powerUp.removePowerUp(this.player)
         }
         
         if (counter % this.badGuy.counter == 0) {
@@ -68,13 +68,12 @@ Universe = function() {
         return this.camera;
     }
 
-    $(document).bind('powerUpPickUp', function (event, scene){
+    $(document).bind('powerUpPickUp', function (event, scene, player){
 		if (scene == self.scene) {
-        var position = GenerateRandomPositionAwayFromPlayer( self.player.mesh.position );
+			var position = GenerateRandomPositionAwayFromPlayer( self.player.mesh.position );
 			self.powerUp = new PowerUp(self.scene, position.x, position.y );
-        score.change( 1 );
-        self.player.speedUp();
 		}
+        self.player.speedUp();
     });
 }
 
