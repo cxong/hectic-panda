@@ -53,6 +53,7 @@ function render() {
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
+      score = new Score();
     }
     return;
   }

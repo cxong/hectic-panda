@@ -72,8 +72,9 @@ Universe = function() {
 		if (scene == self.scene) {
         var position = GenerateRandomPositionAwayFromPlayer( self.player.mesh.position );
 			self.powerUp = new PowerUp(self.scene, position.x, position.y );
-		}
+        score.change( 1 );
         self.player.speedUp();
+		}
     });
 }
 
