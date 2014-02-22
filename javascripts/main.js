@@ -1,20 +1,5 @@
-var scene = new THREE.Scene();
+
 var clock = new THREE.Clock();
-
-
-// Set up camera
-var SCREEN_WIDTH = 8
-var SCREEN_HEIGHT = 8
-
-var aspectRatio = window.innerWidth / window.innerHeight;
-var near = 0.1;
-var far = 1000;
-var cameraScale = 15;
-var camera = new THREE.OrthographicCamera(
-  cameraScale * aspectRatio / - 2, cameraScale * aspectRatio / 2,
-  cameraScale / 2, cameraScale / - 2, near, far );
-camera.position.z = 5;
-
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.autoClear = false;
@@ -25,16 +10,6 @@ var splitScreenRenderer = new SplitScreenRenderer();
 // Set up scene and objects
 
 var isPlaying = true;
-
-// Player
-var player = new Player( scene );
-
-var powerUp = new PowerUp(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
-
-var badGuy = new BadGuy(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
-
-var map = new Map( scene );
-
 
 // Keyboard
 var keysPressed = {};
@@ -64,6 +39,8 @@ music.play();
 // Render loop
 var counter = 0;
 
+var universes = [new Universe(), new Universe(), new Universe(), new Universe()];
+
 function render() {
   counter ++
   requestAnimationFrame(render);
@@ -73,43 +50,21 @@ function render() {
     return;
   }
   
-  // handle input
-  player.setDir( keysPressed );
-  keysPressed = {};
-  player.update( delta );
+  var scenes = [];
+  var cameras = [];
   
-  badGuy.update( delta );
-  
-  if ( map.detectCollision( badGuy.mesh.position, badGuy.mesh.scale )) {
-	badGuy.opposite()
+  for(var i = 0; i < universes.length; ++i) {
+    var universe = universes[i];
+    universe.update(counter, delta, keysPressed);
+    scenes[i] = universe.getScene();
+    cameras[i] = universe.getCamera();
   }
-  
-  // Collide with map edge
-  if ( map.detectCollision( player.mesh.position, player.mesh.scale )) {
-	playaBeDeadYo()
-  }
-  
-  if (badGuy.detectCollision( player.mesh.position, player.mesh.scale)) {
-	playaBeDeadYo()
-  }
-  
-  if (powerUp.detectCollision( player.mesh.position, player.mesh.scale)) {
-	powerUp.removePowerUp()
-  }
-  
-  console.log("counter:" + counter + ",badGuy.counter:" + badGuy.counter)
-  
-  if (counter % badGuy.counter == 0) {
-	badGuy.changeDirection()
-  }
-  
-  
-  var scenes = [scene, scene, scene, scene];
-  var cameras = [camera, camera, camera, camera];
   
   renderer.clear(true);
   
   splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
+  
+  keysPressed = {};
 }
 
 function playaBeDeadYo() {
@@ -135,16 +90,6 @@ function onDocumentKeyDown( event ) {
 
 render();
 
-$(document).bind('powerUpPickUp', function (){
-	powerUp = new PowerUp(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
-  player.speedUp();
-  pickupSound.play();
-})
-
-function randomNumberBothWays(max) {
-	return Math.floor((Math.random() * max) - max/2) 
-}
-
-function randomNumber(max) {
-	return Math.ceil((Math.random() * max)) 
-}
+    $(document).bind('powerUpPickUp', function (){
+      pickupSound.play();
+    });
