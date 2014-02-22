@@ -1,6 +1,7 @@
 var Player = function( scene ) {
   var matMap = THREE.ImageUtils.loadTexture( "images/player.png" );
   var material = new THREE.MeshBasicMaterial({
+    //color : 0xff0000,
     map : matMap,
     transparent : true
   });
