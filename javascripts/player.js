@@ -1,5 +1,7 @@
 var Player = function( scene ) {
-  var matMap = THREE.ImageUtils.loadTexture( "images/player.png" );
+  var matMap = THREE.ImageUtils.loadTexture( "images/Panda_0.png" );
+  var matAnimator = new TextureAnimator(
+    matMap, 3, 4, 75 ); // texture, #horiz, #vert, duration.
   var material = new THREE.MeshBasicMaterial({
     //color : 0xff0000,
     map : matMap,
@@ -16,19 +18,23 @@ var Player = function( scene ) {
     if ( keysPressed.left ) {
       this.dir.x = -1;
       this.dir.y = 0;
-      this.mesh.rotation.z = 0.5 * Math.PI;
+      matAnimator.setPose( 0 );
+      //this.mesh.rotation.z = 0.5 * Math.PI;
     } else if ( keysPressed.right ) {
       this.dir.x = 1;
       this.dir.y = 0;
-      this.mesh.rotation.z = 1.5 * Math.PI;
+      matAnimator.setPose( 1 );
+      //this.mesh.rotation.z = 1.5 * Math.PI;
     } else if ( keysPressed.up ) {
       this.dir.x = 0;
       this.dir.y = 1;
-      this.mesh.rotation.z = 0;
+      matAnimator.setPose( 2 );
+      //this.mesh.rotation.z = 0;
     } else if ( keysPressed.down ) {
       this.dir.x = 0;
       this.dir.y = -1;
-      this.mesh.rotation.z = Math.PI;
+      matAnimator.setPose( 3 );
+      //this.mesh.rotation.z = Math.PI;
     }
   };
   this.setDir( { right : true } );
@@ -37,8 +43,9 @@ var Player = function( scene ) {
     this.speed *= 1.01;
   }
   
-  this.update = function() {
+  this.update = function( delta ) {
     this.mesh.position.x += this.dir.x * this.speed;
     this.mesh.position.y += this.dir.y * this.speed;
+    matAnimator.update( 1000 * delta );
   };
 };

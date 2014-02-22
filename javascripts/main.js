@@ -1,4 +1,5 @@
 var scene = new THREE.Scene();
+var clock = new THREE.Clock();
 
 
 // Set up camera
@@ -62,6 +63,7 @@ var counter = 0;
 function render() {
   counter ++
   requestAnimationFrame(render);
+  var delta = clock.getDelta();
 
   if ( !isPlaying ) {
     return;
@@ -70,7 +72,7 @@ function render() {
   // handle input
   player.setDir( keysPressed );
   keysPressed = {};
-  player.update();
+  player.update( delta );
   
   badGuy.update();
   
