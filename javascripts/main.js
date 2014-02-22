@@ -25,7 +25,9 @@ var isPlaying = true;
 // Player
 var player = new Player( scene );
 
-var powerUp = new PowerUp(scene, randomNumber(SCREEN_WIDTH), randomNumber(SCREEN_HEIGHT));
+var powerUp = new PowerUp(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
+
+var badGuy = new BadGuy(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
 
 var map = new Map( scene );
 
@@ -55,6 +57,7 @@ music.play();
 var counter = 0;
 
 function render() {
+  counter ++
   requestAnimationFrame(render);
 
   if ( !isPlaying ) {
@@ -66,19 +69,38 @@ function render() {
   keysPressed = {};
   player.update();
   
+  badGuy.update();
+  
+  if ( map.detectCollision( badGuy.mesh.position, badGuy.mesh.scale )) {
+	badGuy.opposite()
+  }
+  
   // Collide with map edge
-  if ( map.isAtEdge( player.mesh.position, player.mesh.scale ) ) {
-    //console.log("YOU LOSE");
-    player.mesh.material.color = 0x000000;
-    dieSound.play();
-    isPlaying = false;
+  if ( map.detectCollision( player.mesh.position, player.mesh.scale )) {
+	playaBeDeadYo()
+  }
+  
+  if (badGuy.detectCollision( player.mesh.position, player.mesh.scale)) {
+	playaBeDeadYo()
   }
   
   if (powerUp.detectCollision( player.mesh.position, player.mesh.scale)) {
 	powerUp.removePowerUp()
   }
   
+  console.log("counter:" + counter + ",badGuy.counter:" + badGuy.counter)
+  
+  if (counter % badGuy.counter == 0) {
+	badGuy.changeDirection()
+  }
+  
   renderer.render( scene, camera );
+}
+
+function playaBeDeadYo() {
+	player.mesh.material.color = 0x000000;
+    dieSound.play();
+    isPlaying = false;
 }
 
 function onDocumentKeyDown( event ) {
@@ -95,12 +117,15 @@ function onDocumentKeyDown( event ) {
 }
 
 render();
+
 $(document).bind('powerUpPickUp', function (){
-	powerUp = new PowerUp(scene, randomNumber(SCREEN_WIDTH), randomNumber(SCREEN_HEIGHT));
+	powerUp = new PowerUp(scene, randomNumberBothWays(SCREEN_WIDTH), randomNumberBothWays(SCREEN_HEIGHT));
 })
 
+function randomNumberBothWays(max) {
+	return Math.floor((Math.random() * max) - max/2) 
+}
+
 function randomNumber(max) {
-	var number = (Math.random() * max) - max/2
-	console.log(number)
-	return Math.floor(number) 
+	return Math.floor((Math.random() * max)) 
 }

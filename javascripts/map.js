@@ -9,7 +9,7 @@ var Map = function( scene ) {
   this.mesh.scale.y = 16;
   scene.add( this.mesh );
   
-  this.isAtEdge = function( pos, scale ) {
+  this.detectCollision = function( pos, scale ) {
     var hitLeft = pos.x - scale.x / 2 < this.mesh.position.x - this.mesh.scale.x / 2;
     var hitBottom = pos.y - scale.y / 2 < this.mesh.position.y - this.mesh.scale.y / 2;
     var hitRight = pos.x + scale.x / 2 > this.mesh.position.x + this.mesh.scale.x / 2;
