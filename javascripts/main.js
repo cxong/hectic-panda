@@ -54,24 +54,20 @@ function render() {
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
     }
-  } else if ( gameState == "end" ) {
-    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-    loseSplash.render( renderer );
-    // Check for key presses
-    if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
-      location.reload();
-    }
-  }
-  if ( gameState != "playing" ) {
     return;
+  }
+  
+  if ( gameState == "playing" ) {
+    for(var i = 0; i < universes.length; ++i) {
+      var universe = universes[i];
+      universe.update(counter, delta, keysPressed);
+    }
   }
   
   var scenes = [];
   var cameras = [];
-  
   for(var i = 0; i < universes.length; ++i) {
     var universe = universes[i];
-    universe.update(counter, delta, keysPressed);
     scenes[i] = universe.getScene();
     cameras[i] = universe.getCamera();
   }
@@ -79,6 +75,15 @@ function render() {
   renderer.clear(true);
   
   splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
+
+  if ( gameState == "end" ) {
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+    loseSplash.render( renderer );
+    // Check for key presses
+    if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
+      location.reload();
+    }
+  }
   
   keysPressed = {};
 }
