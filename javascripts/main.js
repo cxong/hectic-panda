@@ -62,15 +62,21 @@ function render() {
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
+	  score = new Score();
+	  highScore = new HighScore();
     }
   } else if ( gameState == "end" ) {
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     loseSplash.render( renderer );
+	if (score.value > highScore.value) {
+		highScore.set(score.value)
+	}
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       location.reload();
     }
   }
+  
   if ( gameState != "playing" ) {
     return;
   }
@@ -118,4 +124,8 @@ render();
     $(document).bind('powerUpPickUp', function (event, scene, player){
 		universes[universes.length] = new Universe(player)
       pickupSound.play();
+	  score.change( 1 );
+	  if (score.value > highScore.value) {
+		highScore.set(score.value)
+	  }
     });

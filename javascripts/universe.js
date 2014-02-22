@@ -54,7 +54,7 @@ Universe = function(player) {
         if (this.powerUp.detectCollision( this.player.mesh.position, this.player.mesh.scale)) {
               this.powerUp.removePowerUp(this.player)
         }
-        
+      
         if (counter % this.badGuy.counter == 0) {
               this.badGuy.changeDirection()
         }
