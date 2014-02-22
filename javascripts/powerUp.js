@@ -1,7 +1,9 @@
 var PowerUp = function(scene, xPos, yPos) {
 	console.log("power up position x=" + xPos + ";y=" + yPos)
+	var matMap = THREE.ImageUtils.loadTexture( "images/shroom.png" );
 	var material = new THREE.MeshBasicMaterial({
-		color : 0xcccccc
+		map : matMap,
+		transparent : true
 	});
 	var geometry = new THREE.PlaneGeometry( 0.5, 0.5 );
 	this.mesh = new THREE.Mesh( geometry, material );
