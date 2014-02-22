@@ -66,18 +66,16 @@ function render() {
   keysPressed = {};
   player.update();
   
-  // hack to simulate item being eaten
-  counter++
-  if (counter % 180 == 0) {
-	powerUp.removePowerUp()
-  }
-  
   // Collide with map edge
   if ( map.isAtEdge( player.mesh.position, player.mesh.scale ) ) {
-    console.log("YOU LOSE");
+    //console.log("YOU LOSE");
     player.mesh.material.color = 0x000000;
     dieSound.play();
     isPlaying = false;
+  }
+  
+  if (powerUp.detectCollision( player.mesh.position, player.mesh.scale)) {
+	powerUp.removePowerUp()
   }
   
   renderer.render( scene, camera );
