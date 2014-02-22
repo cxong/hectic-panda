@@ -122,10 +122,12 @@ function onDocumentKeyDown( event ) {
 render();
 
     $(document).bind('powerUpPickUp', function (event, scene, player){
-		universes[universes.length] = new Universe(player)
       pickupSound.play();
 	  score.change( 1 );
 	  if (score.value > highScore.value) {
 		highScore.set(score.value)
 	  }
+	  if (score.value % 3 == 0)  {
+			universes[universes.length] = new Universe(player)
+		}
     });
