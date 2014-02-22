@@ -55,6 +55,7 @@ function render() {
       gameState = "playing";
     }
   } else if ( gameState == "end" ) {
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     loseSplash.render( renderer );
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
