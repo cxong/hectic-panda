@@ -35,7 +35,8 @@ var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
 var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 music.play();
 
-var splash = new Splash();
+var splash = new Splash( "images/logo.png", 400, 231 );
+var loseSplash = new Splash( "images/lose.png", 280, 128 );
 
 // Render loop
 var counter = 0;
@@ -52,6 +53,12 @@ function render() {
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
+    }
+  } else if ( gameState == "end" ) {
+    loseSplash.render( renderer );
+    // Check for key presses
+    if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
+      location.reload();
     }
   }
   if ( gameState != "playing" ) {
