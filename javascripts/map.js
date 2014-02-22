@@ -1,12 +1,20 @@
 var Map = function( scene ) {
+  var mapWidth = 16;
+  var mapHeight = 16;
+	var matMap = THREE.ImageUtils.loadTexture( "images/grass14.png" );
+  matMap.wrapS = THREE.RepeatWrapping;
+  matMap.wrapT = THREE.RepeatWrapping;
+  matMap.repeat.x = mapWidth / 3.0;
+  matMap.repeat.y = mapHeight / 3.0;
   var material = new THREE.MeshBasicMaterial({
-    color : 0x003300
+    //color : 0x003300
+    map : matMap
   });
   var geometry = new THREE.PlaneGeometry( 1, 1 );
   this.mesh = new THREE.Mesh( geometry, material );
   this.mesh.z = 1;
-  this.mesh.scale.x = 16;
-  this.mesh.scale.y = 16;
+  this.mesh.scale.x = mapWidth;
+  this.mesh.scale.y = mapHeight;
   scene.add( this.mesh );
   
   this.detectCollision = function( pos, scale ) {
