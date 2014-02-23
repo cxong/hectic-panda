@@ -65,7 +65,30 @@ function render() {
 	  score = new Score();
 	  highScore = new HighScore();
     }
-  } else if ( gameState == "end" ) {
+    return;
+  }
+  
+  var scenes = [];
+  var cameras = [];
+  
+  if ( gameState == "playing" ) {
+    for(var i = 0; i < universes.length; ++i) {
+      var universe = universes[i];
+      universe.update(counter, delta, keysPressed);
+    }
+  }
+  
+  for(var i = 0; i < universes.length; ++i) {
+    var universe = universes[i];
+    scenes[i] = universe.getScene();
+    cameras[i] = universe.getCamera();
+  }
+  
+  renderer.clear(true);
+  
+  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
+  
+  if ( gameState == "end" ) {
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     loseSplash.render( renderer );
 	if (score.value > highScore.value) {
@@ -76,24 +99,6 @@ function render() {
       location.reload();
     }
   }
-  
-  if ( gameState != "playing" ) {
-    return;
-  }
-  
-  var scenes = [];
-  var cameras = [];
-  
-  for(var i = 0; i < universes.length; ++i) {
-    var universe = universes[i];
-    universe.update(counter, delta, keysPressed);
-    scenes[i] = universe.getScene();
-    cameras[i] = universe.getCamera();
-  }
-  
-  renderer.clear(true);
-  
-  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
   
   keysPressed = {};
 }
