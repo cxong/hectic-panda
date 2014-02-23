@@ -31,7 +31,7 @@ var Sound = function ( source, volume ) {
   }
 }
 var pickupSound = new Sound( 'sounds/ding.ogg', 1.0 );
-var dieSound = new Sound( 'sounds/explosion.ogg', 1.0 );
+var splitSound = new Sound( 'sounds/laser6.mp3', 1.0 );
 var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
 var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 music.play();
@@ -110,7 +110,6 @@ function render() {
 
 function playaBeDeadYo( player ) {
 	player.mesh.material.color = 0x000000;
-    //dieSound.play();
 	music.stop();
 	deathMusic.play();
   gameState = "end";
@@ -139,6 +138,7 @@ render();
 		highScore.set(score.value)
 	  }
 	  if (score.value % 3 == 0)  {
-			universes[universes.length] = new Universe(player)
+			universes[universes.length] = new Universe(player);
+			splitSound.play();
 		}
     });
