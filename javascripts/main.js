@@ -9,6 +9,7 @@ var splitScreenRenderer = new SplitScreenRenderer();
 
 // Set up scene and objects
 var gameState = "start";  // start, playing, end
+var dieTime = null;
 
 // Keyboard
 var keysPressed = {};
@@ -95,7 +96,11 @@ function render() {
 		highScore.set(score.value)
 	}
     // Check for key presses
-    if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
+    // Wait a while before reloading to prevent reloading immediately
+    // because the player is still pressing keys hectically
+    var isStillHectic = clock.elapsedTime - dieTime < 0.5;
+    var hasPressed = keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down;
+    if ( !isStillHectic && hasPressed ) {
       location.reload();
     }
   }
@@ -109,6 +114,7 @@ function playaBeDeadYo( player ) {
 	music.stop();
 	deathMusic.play();
   gameState = "end";
+  dieTime = clock.elapsedTime;
 }
 
 function onDocumentKeyDown( event ) {
