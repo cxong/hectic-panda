@@ -38,7 +38,7 @@ var HighScore = function() {
   this.set = function( value ) {
     this.value = value;
     this.scoreText.innerHTML = "High Score: " + this.value;
-	document.cookie="highScore=" + this.value;
+	document.cookie="highScore=" + this.value +";expires=Thu, 18 Dec 2114 12:00:00 GMT;path=/;domain=" + document.location.hostname;
   }
 }
 
