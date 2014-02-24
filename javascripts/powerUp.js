@@ -1,5 +1,5 @@
 var PowerUp = function(scene, xPos, yPos) {
-	var matMap = THREE.ImageUtils.loadTexture( "images/fruit.png" );
+	var matMap = THREE.ImageUtils.loadTexture( "images/Fruit.png" );
 	var material = new THREE.MeshBasicMaterial({
 		//color : 0x0000ff,
 		map : matMap,
