@@ -68,10 +68,10 @@ var BadGuy = function(scene, xPos, yPos) {
 	}
 	
 	this.detectCollision = function( pos, scale) {
-		return pos.x - scale.x / 2 < this.mesh.position.x + this.mesh.scale.x /2 && 
-			pos.x + scale.x / 2 > this.mesh.position.x - this.mesh.scale.x /2 &&
-			pos.y - scale.y / 2 < this.mesh.position.y + this.mesh.scale.y /2 &&
-			pos.y + scale.y / 2 > this.mesh.position.y - this.mesh.scale.y /2		
+		return pos.x - scale.x / 4 < this.mesh.position.x + this.mesh.scale.x /2 && 
+			pos.x + scale.x / 4 > this.mesh.position.x - this.mesh.scale.x /2 &&
+			pos.y - scale.y / 4 < this.mesh.position.y + this.mesh.scale.y /2 &&
+			pos.y + scale.y / 4 > this.mesh.position.y - this.mesh.scale.y /2		
 	};
 	
 	this.changeDirection = function() {

@@ -8,8 +8,8 @@ document.body.appendChild(renderer.domElement);
 var splitScreenRenderer = new SplitScreenRenderer();
 
 // Set up scene and objects
-var gameState = "start";  // start, playing, end
-var dieTime = null;
+var gameState;  // start, playing, end
+var dieTime;
 
 // Keyboard
 var keysPressed = {};
@@ -34,7 +34,6 @@ var pickupSound = new Sound( 'sounds/ding.ogg', 1.0 );
 var splitSound = new Sound( 'sounds/laser6.mp3', 1.0 );
 var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
 var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
-music.play();
 
 var splash = new Splash( "images/logo.png", 400, 231 );
 var loseSplash = new Splash( "images/lose.png", 413, 350 );
@@ -48,10 +47,34 @@ var almightPlayer = {"mesh": {
 					 "speed": 0.11,
 					 "dir": new THREE.Vector2( 1, 0 )}
 
-// Render loop
-var counter = 0;
 
-var universes = [new Universe(almightPlayer)];
+
+window.addEventListener('resize',
+  function() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    splash.resize(window.innerWidth, window.innerHeight);
+    loseSplash.resize(window.innerWidth, window.innerHeight);
+  }, false);
+
+// Render loop
+var counter;
+
+var universes;
+
+var score = new Score();
+var highScore = new HighScore();
+
+function start() {
+  score.hide();
+  highScore.hide();
+  score.set(0);
+  deathMusic.stop();
+  music.play();
+  gameState = "start";
+  dieTime = null;
+  counter = 0;
+  universes = [new Universe(almightPlayer)];
+}
 
 function render() {
   counter ++
@@ -63,8 +86,8 @@ function render() {
     // Check for key presses
     if ( keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down ) {
       gameState = "playing";
-	  score = new Score();
-	  highScore = new HighScore();
+      score.show();
+      highScore.show();
     }
     return;
   }
@@ -87,7 +110,7 @@ function render() {
   
   renderer.clear(true);
   
-  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight)
+  splitScreenRenderer.render(renderer, scenes, cameras, window.innerWidth, window.innerHeight, 16 / 10)
   
   if ( gameState == "end" ) {
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
@@ -101,7 +124,7 @@ function render() {
     var isStillHectic = clock.elapsedTime - dieTime < 0.5;
     var hasPressed = keysPressed.left || keysPressed.right || keysPressed.up || keysPressed.down;
     if ( !isStillHectic && hasPressed ) {
-      location.reload();
+      start();
     }
   }
   
@@ -126,9 +149,22 @@ function onDocumentKeyDown( event ) {
     keysPressed.up = true;
   } else if ( keyCode == 40 ) { // down
     keysPressed.down = true;
+  } else if ( keyCode == 70 ) { // F
+    toggleFullScreen();
   }
 }
 
+function toggleFullScreen() {
+  if (THREEx.FullScreen.available()) {
+    if( THREEx.FullScreen.activated() ){
+      THREEx.FullScreen.cancel();
+    }else{
+      THREEx.FullScreen.request();
+    }
+  }
+}
+
+start();
 render();
 
     $(document).bind('powerUpPickUp', function (event, scene, player){

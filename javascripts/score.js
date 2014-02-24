@@ -19,6 +19,14 @@ var Score = function() {
     this.value = value;
     this.scoreText.innerHTML = this.value;
   }
+  
+  this.show = function() {
+    this.scoreText.style.visibility = "visible";
+  }
+  
+  this.hide = function() {
+    this.scoreText.style.visibility = "hidden";
+  }
 }
 var score;
 
@@ -39,6 +47,14 @@ var HighScore = function() {
     this.value = value;
     this.scoreText.innerHTML = "High Score: " + this.value;
 	document.cookie="highScore=" + this.value +";expires=Thu, 18 Dec 2114 12:00:00 GMT;path=/;domain=" + document.location.hostname;
+  }
+  
+  this.show = function() {
+    this.scoreText.style.visibility = "visible";
+  }
+  
+  this.hide = function() {
+    this.scoreText.style.visibility = "hidden";
   }
 }
 

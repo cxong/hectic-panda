@@ -5,7 +5,7 @@ Universe = function(player) {
     
     // Set up camera
     
-    var aspectRatio = window.innerWidth / window.innerHeight;
+    var aspectRatio = 16 / 10;
     var near = 0.1;
     var far = 1000;
     var cameraScale = 15;

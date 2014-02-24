@@ -1,6 +1,6 @@
 
 SplitScreenRenderer = function() {
-    this.render = function(renderer, scenes, cameras, screenWidth, screenHeight) {
+    this.render = function(renderer, scenes, cameras, screenWidth, screenHeight, desiredAspectRatio) {
         
         var xAxisCount = Math.ceil(Math.sqrt(scenes.length));
         var width = screenWidth / xAxisCount;
@@ -16,14 +16,12 @@ SplitScreenRenderer = function() {
         
         height = screenHeight / yAxisCount;
         
-        
-        var screenAspectRatio = screenWidth / screenHeight;
         var aspectRatio = width / height;
         
-        if (aspectRatio > screenAspectRatio) {
-            width = height * screenAspectRatio;
+        if (aspectRatio > desiredAspectRatio) {
+            width = height * desiredAspectRatio;
         } else {
-            height = width / screenAspectRatio;
+            height = width / desiredAspectRatio;
         }
         
         
