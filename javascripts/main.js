@@ -36,7 +36,7 @@ var music = new Sound( 'sounds/Orbital Colossus_0.ogg', 0.3 );
 var deathMusic = new Sound( 'sounds/Aikys-Dying beast.ogg', 0.3 );
 
 var splash = new Splash( "images/logo.png", 400, 231 );
-var loseSplash = new Splash( "images/lose.png", 413, 350 );
+var loseSplash = new Splash( "images/lose.png", 280, 128 );
 
 var almightPlayer = {"mesh": {
 						"position": {

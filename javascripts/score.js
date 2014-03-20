@@ -29,7 +29,7 @@ var Score = function() {
   }
 }
 var score;
-
+var hsCookieName = "hecticPandaHighScore";
 var HighScore = function() {
   this.value = getHighScore();
   this.scoreText = document.createElement('div');
@@ -46,8 +46,8 @@ var HighScore = function() {
   this.set = function( value ) {
     this.value = value;
     this.scoreText.innerHTML = "High Score: " + this.value;
-	document.cookie="highScore=" + this.value +";expires=Thu, 18 Dec 2114 12:00:00 GMT;path=/;domain=" + document.location.hostname;
-  }
+	document.cookie = hsCookieName + "=" + this.value +";expires=Thu, 18 Dec 2114 12:00:00 GMT;path=/;domain=" + document.location.hostname;
+  };
   
   this.show = function() {
     this.scoreText.style.visibility = "visible";
@@ -62,9 +62,9 @@ function getHighScore() {
 	var cookies = document.cookie.split(";")
 	var hs = 0
 	for (var i = 0;i < cookies.length; ++i) {
-		var cookie = {name:cookies[i].split("=")[0], value:cookies[i].split("=")[1]}
-		if (cookie.name == "highScore") {
-			hs = cookie.value
+		var cookie = {name:cookies[i].split("=")[0], value:cookies[i].split("=")[1]};
+		if (cookie.name.trim() == hsCookieName) {
+			hs = cookie.value;
 		}
 	}
 	return hs;
