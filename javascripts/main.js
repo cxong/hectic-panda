@@ -15,7 +15,19 @@ var dieTime;
 var keysPressed = {};
 document.addEventListener("keydown", onDocumentKeyDown, false);
 
-// 
+// Sound
+// Get around Chrome's bs
+window.onload = function() {
+  var audioContext = new AudioContext();
+  // One-liner to resume playback when user interacted with the page.
+  document.addEventListener('click', function() {
+    audioContext.resume().then(function() {
+      if (music.audio.paused) {
+        music.play();
+      }
+    });
+  });
+}
 var Sound = function ( source, volume ) {
   var audio = document.createElement( 'audio' );
   audio.volume = volume;
@@ -29,6 +41,7 @@ var Sound = function ( source, volume ) {
   this.stop = function () {
 	audio.pause();
   }
+  this.audio = audio;
 }
 var pickupSound = new Sound( 'sounds/ding.ogg', 1.0 );
 var splitSound = new Sound( 'sounds/laser6.mp3', 1.0 );
